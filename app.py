@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, session, redirect, url_for, escape,make_response, request
 from flask import render_template
+import mysql.connector
+import click
 
 app = Flask(__name__)
 
@@ -49,5 +51,29 @@ def return_json():
 def page_not_found(error):
   return render_template('page_not_found.html'), 404
 
+# customizer flash command(execute: flask initdb)
+@app.cli.command()
+def initdb():
+  """Initialize the database."""
+  click.echo('Init the db')
+
 # set the secret key.  keep this really secret:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+@app.route('/currency')
+def return_currency():
+  conn = mysql.connector.connect(user='root', password='root', database='currency', use_unicode=True)
+  cursor = conn.cursor()
+  cursor.execute('select * from rates where currency_code = %s', (22,))
+  values = cursor.fetchall()
+  myList = []
+  for v in values:
+    row = {'rate': v[3], 'date': v[1].strftime("%Y-%m-%d")}
+    myList.append(row)
+  resp = make_response(jsonify(
+    currency=myList
+  ))
+  cursor.close()
+  conn.close()
+  return resp
+
