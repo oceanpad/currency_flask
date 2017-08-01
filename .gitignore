@@ -9,6 +9,8 @@ dist
 build
 *.egg
 *.egg-info
+*.egg-info/
+.eggs/
 _mailinglist
 .tox
 .cache/

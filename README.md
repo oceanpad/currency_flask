@@ -3,14 +3,24 @@
 export FLASK_APP=/path/to/app.py
 export FLASK_DEBUG=1  #debug mode, auto reload when source are changed and other features
 ```
-source ~/.bashrc
-flask run --port=0.0.0.0
 
 ```
+$ source ~/.bashrc
+$ flask run --port=0.0.0.0
+
  * Serving Flask app "app"
  * Forcing debug mode on
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 287-336-933
+```
+
+# Run test
+```
+$ pip install -e .
+$ py.test
+$ py.test -f (Automatically run test when files changed, need install pytest-xdist)
+or
+$ python setup.py test
 ```
